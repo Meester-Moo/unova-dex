@@ -47,7 +47,6 @@ header {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    width: 25%;
     will-change: transform;
 }
 
