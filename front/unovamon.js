@@ -1,16 +1,24 @@
+//gets the button element from the html file as pokebutton
 let pokebutton = document.getElementById("pokebutton");
 
+//adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
 pokebutton.addEventListener("click", generatePokedex);
 
+//generatePokedex() (called by event listener)
 function generatePokedex() {
+    //hides the Generate Pokedex button
     document.getElementById("pokebutton").style.display = "none";
 
+    //debug console.log to show generatePokedex() was called
     console.log("Generate Pokedex button pressed");
 
+    //gets the table element from the html file as poketable
     const poketable = document.getElementById("poketable");
 
+    //creates a table row element (to be reused)
     const tableRow = document.createElement("tr");
     
+    //appends the table row element to the poketable
     poketable.appendChild(tableRow);
 
 }
