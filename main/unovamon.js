@@ -1,33 +1,6 @@
-//PokeAPI Data Requests
+//////////////////////////////////////////////////////////////
 
-let API_URL = "https://pokeapi.co/api/v2/pokemon/";
-
-urls = [];
-
-for (let i = 494; i <= 649; ++i) {
-  urls.push(API_URL + i);
-}
-
-console.log(urls);
-
-urls.forEach((url) => {
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-});
-
-fetch("https://pokeapi.co/api/v2/pokemon/snivy")
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-
-//gets the button element from the html file as pokebutton
-let pokebutton = document.getElementById("pokebutton");
-
-//adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
-pokebutton.addEventListener("click", generatePokedex);
-
-//////////////////////////////////////////////////////////////Pokemon Objects
-
+//Pokemon Objects
 class Pokemon {
   constructor(name, type) {
     this.name = name;
@@ -45,7 +18,51 @@ const Snivy = new Pokemon("Snivy", "Grass");
 const Tepig = new Pokemon("Tepig", "Fire");
 const Oshawott = new Pokemon("Oshawott", "Water");
 
+Snivy.getDetails();
+
 //////////////////////////////////////////////////////////////
+
+//PokeAPI Data Requests
+
+let API_URL = "https://pokeapi.co/api/v2/pokemon/";
+let urls = [];
+
+for (let i = 494; i <= 649; ++i) {
+  urls.push(API_URL + i);
+}
+
+function makeRequest() {
+  Promise.all(
+    urls.map((url) =>
+      fetch(url).then((res) => {
+        if (!res.ok) {
+          console.log("Network response was not ok: " + res.status);
+        }
+        return res.json();
+      })
+    )
+  )
+    .then((data) => {
+      console.log(data); // All data here
+    })
+    .catch((error) => {
+      console.error("Error during fetch: " + error.message);
+    });
+}
+
+function testFunction() {
+  console.log("hello");
+}
+
+makeRequest();
+
+console.log(urls);
+
+//gets the button element from the html file as pokebutton
+let pokebutton = document.getElementById("pokebutton");
+
+//adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
+pokebutton.addEventListener("click", generatePokedex);
 
 //Columns
 //Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
