@@ -50,13 +50,12 @@ function makeRequest() {
     });
 }
 
-function testFunction() {
-  console.log("hello");
-}
-
 makeRequest();
 
-console.log(urls);
+function getPokemonData() {
+  let pokemonNames = [];
+  //get pokemon names from JSON
+}
 
 //gets the button element from the html file as pokebutton
 let pokebutton = document.getElementById("pokebutton");
