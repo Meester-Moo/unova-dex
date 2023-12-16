@@ -1,27 +1,26 @@
 //////////////////////////////////////////////////////////////
 
-//Pokemon Objects
-class Pokemon {
-  constructor(name, type) {
-    this.name = name;
-    this.type = type;
-  }
+// //Pokemon Objects
+// class Pokemon {
+//   constructor(name, type) {
+//     this.name = name;
+//     this.type = type;
+//   }
 
-  getDetails() {
-    console.log(`${this.name} is a ${this.type} type Pokemon.`);
+//   getDetails() {
+//     console.log(`${this.name} is a ${this.type} type Pokemon.`);
 
-    return `${this.name} is a ${this.type} type Pokemon.`;
-  }
-}
+//     return `${this.name} is a ${this.type} type Pokemon.`;
+//   }
+// }
 
-const Snivy = new Pokemon("Snivy", "Grass");
-const Tepig = new Pokemon("Tepig", "Fire");
-const Oshawott = new Pokemon("Oshawott", "Water");
+// const Snivy = new Pokemon("Snivy", "Grass");
+// const Tepig = new Pokemon("Tepig", "Fire");
+// const Oshawott = new Pokemon("Oshawott", "Water");
 
-Snivy.getDetails();
+// Snivy.getDetails();
 
 //////////////////////////////////////////////////////////////
-
 //PokeAPI Data Requests
 
 let API_URL = "https://pokeapi.co/api/v2/pokemon/";
@@ -44,18 +43,26 @@ function makeRequest() {
   )
     .then((data) => {
       console.log(data); // All data here
+      console.log(data[0].name + " this is a test");
+      getPokemonData(data);
     })
     .catch((error) => {
       console.error("Error during fetch: " + error.message);
     });
 }
 
+function getPokemonData(pokemonData) {
+  let pokemonNames = [];
+  for (let i = 0; i <= 156; ++i) {
+    pokemonNames.push(pokemonData[i].name);
+    console.log(pokemonNames[i]);
+  }
+}
+
 makeRequest();
 
-function getPokemonData() {
-  let pokemonNames = [];
-  //get pokemon names from JSON
-}
+//////////////////////////////////////////////////////////////
+//Button and Table Logic
 
 //gets the button element from the html file as pokebutton
 let pokebutton = document.getElementById("pokebutton");
@@ -89,6 +96,14 @@ function generatePokedex() {
   poketable.appendChild(tableRow);
 }
 
+//Possible ideas:
+// 1. Make a function that takes in a pokemon name and returns the pokemon's image, type, stats, etc
+// 2. Make a function that generates a random pokemon and displays its image, type, stats, etc
+// 3. Do this but using the PokeAPI
+
+//Practice syntax while learning
+//Delete later
+
 //Create an async/await
 
 // let p = new Promise((resolve, reject) => {
@@ -118,22 +133,17 @@ function generatePokedex() {
 //     poop(sum)
 // }
 
-let p = new Promise((resolve, reject) => {
-  let a = 1 + 1;
-  if (a == 2) {
-    resolve("Success");
-  } else {
-    reject("Failed");
-  }
-});
+// let p = new Promise((resolve, reject) => {
+//   let a = 1 + 1;
+//   if (a == 2) {
+//     resolve("Success");
+//   } else {
+//     reject("Failed");
+//   }
+// });
 
-p.then((message) => {
-  console.log("This is in the then " + message);
-}).catch((message) => {
-  console.log("This is in the catch " + message);
-});
-
-//Possible ideas:
-// 1. Make a function that takes in a pokemon name and returns the pokemon's image, type, stats, etc
-// 2. Make a function that generates a random pokemon and displays its image, type, stats, etc
-// 3. Do this but using the PokeAPI
+// p.then((message) => {
+//   console.log("This is in the then " + message);
+// }).catch((message) => {
+//   console.log("This is in the catch " + message);
+// });
