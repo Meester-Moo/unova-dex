@@ -51,13 +51,32 @@ function makeRequest() {
     });
 }
 
+//Put each pokemon's data into an array
+
 function getPokemonData(pokemonData) {
   let pokemonNames = [];
-  for (let i = 0; i <= 156; ++i) {
+  let pokemonType1 = [];
+  let pokemonType2 = [];
+  for (let i = 0; i <= pokemonData.length - 1; ++i) {
     pokemonNames.push(pokemonData[i].name);
+
+    pokemonType1.push(pokemonData[i].types[0].type.name);
+
     console.log(pokemonNames[i]);
+    console.log(pokemonType1[i]);
+
+    if (pokemonData[i].types[1] != undefined) {
+      pokemonType2.push(pokemonData[i].types[1].type.name);
+      console.log(pokemonType2[i]);
+    }
   }
+  console.log(pokemonNames);
+  console.log(pokemonType1);
 }
+
+//Test code
+
+//
 
 makeRequest();
 
