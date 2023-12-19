@@ -1,3 +1,10 @@
+//TODO make the getData code run when you press the button, or keep it async, but add some sort of
+//check if the data has been retrieved so when the user presses the button the data is always already there.
+
+//Possible ideas:
+// 1. Make a function that takes in a pokemon name and returns the pokemon's image, type, stats, etc
+// 2. Make a function that generates a random pokemon and displays its image, type, stats, etc
+// 3. Do this but using the PokeAPI
 //////////////////////////////////////////////////////////////
 
 // //Pokemon Objects
@@ -43,7 +50,6 @@ function makeRequest() {
   )
     .then((data) => {
       console.log(data); // All data here
-      console.log(data[0].name + " this is a test");
       getPokemonData(data);
     })
     .catch((error) => {
@@ -57,35 +63,43 @@ function makeRequest() {
 function getPokemonData(pokemonData) {
   let nationalNum = [];
   let pokemonName = [];
-  let pokemonType1 = [];
-  let pokemonType2 = [];
+  let pokemonTypes = [];
   let pokemonAbilities = [];
+  let pokemonHiddenAbility = [];
   let pokemonStatArr = [];
 
   for (let i = 0; i <= pokemonData.length - 1; ++i) {
     nationalNum.push(pokemonData[i].id);
     pokemonName.push(pokemonData[i].name);
-    pokemonType1.push(pokemonData[i].types[0].type.name);
 
-    console.log(pokemonName[i]);
-    console.log(pokemonType1[i]);
+    let tempPokemonTypes = [];
+
+    tempPokemonTypes.push(pokemonData[i].types[0].type.name);
 
     if (pokemonData[i].types[1] != undefined) {
-      pokemonType2.push(pokemonData[i].types[1].type.name);
-      console.log(pokemonData[i].types[1].type.name);
+      tempPokemonTypes.push(pokemonData[i].types[1].type.name);
     }
+
+    pokemonTypes.push([tempPokemonTypes]);
+
+    let temporaryAbilityArray = [];
+
+    for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
+      temporaryAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+    }
+
+    pokemonAbilities.push(temporaryAbilityArray);
   }
+
+  //Test code
+
+  //
+  console.log("Data below:");
   console.log(nationalNum);
   console.log(pokemonName);
-  console.log(pokemonType1);
-  console.log(pokemonType2);
-
-  // console.log(pokemonData[].)
+  console.log(pokemonTypes);
+  console.log(pokemonAbilities);
 }
-
-//Test code
-
-//
 
 makeRequest();
 
@@ -124,11 +138,6 @@ function generatePokedex() {
   poketable.appendChild(tableRow);
 }
 
-//Possible ideas:
-// 1. Make a function that takes in a pokemon name and returns the pokemon's image, type, stats, etc
-// 2. Make a function that generates a random pokemon and displays its image, type, stats, etc
-// 3. Do this but using the PokeAPI
-
 //Practice syntax while learning
 //Delete later
 
@@ -155,10 +164,10 @@ function generatePokedex() {
 
 // calculateSum(10, 20, log)
 
-// function calculateSum(num1, num2, poop) {
+// function calculateSum(num1, num2, test) {
 //     const sum = num1 + num2
 
-//     poop(sum)
+//     test(sum)
 // }
 
 // let p = new Promise((resolve, reject) => {
