@@ -52,16 +52,22 @@ function makeRequest() {
 }
 
 //Put each pokemon's data into an array
+//Like make each pokemon into its own Object / nested array?
 
 function getPokemonData(pokemonData) {
-  let pokemonNames = [];
+  let nationalNum = [];
+  let pokemonName = [];
   let pokemonType1 = [];
   let pokemonType2 = [];
+  let pokemonAbilities = [];
+  let pokemonStatArr = [];
+
   for (let i = 0; i <= pokemonData.length - 1; ++i) {
-    pokemonNames.push(pokemonData[i].name);
+    nationalNum.push(pokemonData[i].id);
+    pokemonName.push(pokemonData[i].name);
     pokemonType1.push(pokemonData[i].types[0].type.name);
 
-    console.log(pokemonNames[i]);
+    console.log(pokemonName[i]);
     console.log(pokemonType1[i]);
 
     if (pokemonData[i].types[1] != undefined) {
@@ -69,7 +75,8 @@ function getPokemonData(pokemonData) {
       console.log(pokemonData[i].types[1].type.name);
     }
   }
-  console.log(pokemonNames);
+  console.log(nationalNum);
+  console.log(pokemonName);
   console.log(pokemonType1);
   console.log(pokemonType2);
 
