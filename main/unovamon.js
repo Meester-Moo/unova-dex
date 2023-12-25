@@ -1,32 +1,15 @@
-//TODO make the getData code run when you press the button, or keep it async, but add some sort of
-//check if the data has been retrieved so when the user presses the button the data is always already there.
-
 //Possible ideas:
 // 1. Make a function that takes in a pokemon name and returns the pokemon's image, type, stats, etc
+// and put it in a button
 // 2. Make a function that generates a random pokemon and displays its image, type, stats, etc
+// and put it in a button
 // 3. Do this but using the PokeAPI
-//////////////////////////////////////////////////////////////
 
-// //Pokemon Objects
-// class Pokemon {
-//   constructor(name, type) {
-//     this.name = name;
-//     this.type = type;
-//   }
+//TODO get the gifs for each pokemon
+//Start making the table
 
-//   getDetails() {
-//     console.log(`${this.name} is a ${this.type} type Pokemon.`);
-
-//     return `${this.name} is a ${this.type} type Pokemon.`;
-//   }
-// }
-
-// const Snivy = new Pokemon("Snivy", "Grass");
-// const Tepig = new Pokemon("Tepig", "Fire");
-// const Oshawott = new Pokemon("Oshawott", "Water");
-
-// Snivy.getDetails();
-
+//TODO make the getData code run when you press the button, or keep it async, but add some sort of
+//check if the data has been retrieved so when the user presses the button the data is always already there.
 //////////////////////////////////////////////////////////////
 //PokeAPI Data Requests
 
@@ -69,26 +52,45 @@ function getPokemonData(pokemonData) {
   let pokemonStatArr = [];
 
   for (let i = 0; i <= pokemonData.length - 1; ++i) {
+    //This for loop iterates for EACH pokemon object (pokemonData[i])
+
+    // pokemonData.length - 1
+    // =
+    // 0 - 155 (index of each JSON pokemon object)
+
     nationalNum.push(pokemonData[i].id);
     pokemonName.push(pokemonData[i].name);
 
-    let tempPokemonTypes = [];
+    let tempPokemonTypesArray = [];
+    //make a temp array for the current pokemon's types
 
-    tempPokemonTypes.push(pokemonData[i].types[0].type.name);
-
-    if (pokemonData[i].types[1] != undefined) {
-      tempPokemonTypes.push(pokemonData[i].types[1].type.name);
+    for (let j = 0; j < pokemonData[i].types.length; ++j) {
+      tempPokemonTypesArray.push(pokemonData[i].types[j].type.name);
     }
 
-    pokemonTypes.push([tempPokemonTypes]);
+    pokemonTypes.push([tempPokemonTypesArray]);
+    //push the tempPokemonTypesArray array into the pokemonTypes array
 
-    let temporaryAbilityArray = [];
+    let tempAbilityArray = [];
+    //make a temp array for the current pokemon's abilities
+
+    let tempHiddenAbilityArray = [];
+    //make a temp array for the current pokemon's hidden abilities
 
     for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
-      temporaryAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+      if (pokemonData[i].abilities[j].is_hidden) {
+        tempHiddenAbilityArray.push(pokemonData[i].abilities[j].ability.name); //if the ability is hidden
+      } else {
+        //if the ability is not hidden
+        tempAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+      }
     }
 
-    pokemonAbilities.push(temporaryAbilityArray);
+    pokemonAbilities.push(tempAbilityArray);
+    //push the tempAbilityArray into the pokemonAbilities array
+
+    pokemonHiddenAbility.push(tempHiddenAbilityArray);
+    //push the tempHiddenAbilityArray into the pokemonAbilities array
   }
 
   //Test code
@@ -99,6 +101,7 @@ function getPokemonData(pokemonData) {
   console.log(pokemonName);
   console.log(pokemonTypes);
   console.log(pokemonAbilities);
+  console.log(pokemonHiddenAbility);
 }
 
 makeRequest();
@@ -137,6 +140,29 @@ function generatePokedex() {
   //appends the table row element to the poketable
   poketable.appendChild(tableRow);
 }
+//////////////////////////////////////////////////////////////
+
+// //Pokemon Object creation?
+// class Pokemon {
+//   constructor(name, type) {
+//     this.name = name;
+//     this.type = type;
+//   }
+
+//   getDetails() {
+//     console.log(`${this.name} is a ${this.type} type Pokemon.`);
+
+//     return `${this.name} is a ${this.type} type Pokemon.`;
+//   }
+// }
+
+// const Snivy = new Pokemon("Snivy", "Grass");
+// const Tepig = new Pokemon("Tepig", "Fire");
+// const Oshawott = new Pokemon("Oshawott", "Water");
+
+// Snivy.getDetails();
+
+//////////////////////////////////////////////////////////////
 
 //Practice syntax while learning
 //Delete later
