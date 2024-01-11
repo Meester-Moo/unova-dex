@@ -5,9 +5,7 @@
 // and put it in a button
 // 3. Do this but using the PokeAPI
 
-//TODO get the gifs for each pokemon
 //Start making the table
-
 //TODO make the getData code run when you press a button, or keep it async, but add some sort of
 //check if the data has been retrieved so when the user presses the button the data is always already there.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,47 +94,49 @@ window.onload = function () {
     }
 
     //Test code
-
-    //
     console.log("Data below:");
     console.log(nationalNum);
     console.log(pokemonName);
     console.log(pokemonTypes);
     console.log(pokemonAbilities);
     console.log(pokemonHiddenAbility);
+    //
   }
 
   makeRequest();
 
   ///////////////////////////////////////////////////////////// Table Logic
-  // Table Logic
 
-  /////////////////////////////////////////////////////////////
+  //Creates TABLE element and associates it with the poketable table in the HTML
+  let table = document.getElementById("poketable");
 
-  //gets the table element from the html file as poketable
-  let poketable = document.getElementById("poketable");
+  //Creates the first ROW of the table (the heading row)
+  //appends the table row element to the table
+  let tableHeaderRow = document.createElement("tr");
+  table.appendChild(tableHeaderRow);
 
-  // for(let i = )
+  //Creates the heading table data element for the gif column
+  let gifHeader = document.createElement("td");
+  tableHeaderRow.appendChild(gifHeader);
 
-  //creates table elements (to be used to create them)
-  let tableRow = document.createElement("tr");
-  poketable.appendChild(tableRow);
+  gifHeader.innerText = "this is where gifs will go";
 
-  let tableData = document.createElement("td");
-  tableRow.appendChild(tableData);
-
-  //appends the table row element to the poketable
-  poketable.appendChild(tableRow);
-  /////////////////////////////////////////////////////////////
+  //finish headers and row creation
 
   //Columns
   //Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
 };
 
-//Old Pokebutton
-//repurpose this button to allow the user to do other things with the
-//displayed data?
-//gets the button element from the html file as pokebutton
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Old Pokebutton
+// repurpose this button to allow the user to do other things with the
+// displayed data?
+//  // gets the button element from the html file as pokebutton
 // let pokebutton = document.getElementById("pokebutton");
 
 // //adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
@@ -152,74 +152,3 @@ window.onload = function () {
 
 // //hides the Generate Pokedex button
 // document.getElementById("pokebutton").style.display = "none";
-
-//////////////////////////////////////////////////////////////
-
-// //Pokemon Object creation?
-// class Pokemon {
-//   constructor(name, type) {
-//     this.name = name;
-//     this.type = type;
-//   }
-
-//   getDetails() {
-//     console.log(`${this.name} is a ${this.type} type Pokemon.`);
-
-//     return `${this.name} is a ${this.type} type Pokemon.`;
-//   }
-// }
-
-// const Snivy = new Pokemon("Snivy", "Grass");
-// const Tepig = new Pokemon("Tepig", "Fire");
-// const Oshawott = new Pokemon("Oshawott", "Water");
-
-// Snivy.getDetails();
-
-//////////////////////////////////////////////////////////////
-
-//Practice syntax while learning
-//Delete later
-
-//Create an async/await
-
-// let p = new Promise((resolve, reject) => {
-//     let a = 2 + 1
-//     if (a == 2) {
-//         resolve('Success')
-//     } else {
-//         reject('Failed')
-//     }
-// })
-
-// p.then((message) => {
-//     console.log('This is in the then ' + message)
-// }).catch((message) => {
-//     console.log('This is in the catch ' + message)
-// })
-
-// function log(value) {
-//     console.log(value)
-// }
-
-// calculateSum(10, 20, log)
-
-// function calculateSum(num1, num2, test) {
-//     const sum = num1 + num2
-
-//     test(sum)
-// }
-
-// let p = new Promise((resolve, reject) => {
-//   let a = 1 + 1;
-//   if (a == 2) {
-//     resolve("Success");
-//   } else {
-//     reject("Failed");
-//   }
-// });
-
-// p.then((message) => {
-//   console.log("This is in the then " + message);
-// }).catch((message) => {
-//   console.log("This is in the catch " + message);
-// });
