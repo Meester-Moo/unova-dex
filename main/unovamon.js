@@ -8,126 +8,115 @@
 //TODO get the gifs for each pokemon
 //Start making the table
 
-//TODO make the getData code run when you press the button, or keep it async, but add some sort of
+//TODO make the getData code run when you press a button, or keep it async, but add some sort of
 //check if the data has been retrieved so when the user presses the button the data is always already there.
-//////////////////////////////////////////////////////////////
-//PokeAPI Data Requests
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let API_URL = "https://pokeapi.co/api/v2/pokemon/";
-let urls = [];
+window.onload = function () {
+  ////////////////////////////////////////////////////////////// PokeAPI Data Requests
+  let API_URL = "https://pokeapi.co/api/v2/pokemon/";
+  let urls = [];
 
-for (let i = 494; i <= 649; ++i) {
-  urls.push(API_URL + i);
-}
-
-function makeRequest() {
-  Promise.all(
-    urls.map((url) =>
-      fetch(url).then((res) => {
-        if (!res.ok) {
-          console.log("Network response was not ok: " + res.status);
-        }
-        return res.json();
-      })
-    )
-  )
-    .then((data) => {
-      console.log(data); // All data here
-      getPokemonData(data);
-    })
-    .catch((error) => {
-      console.error("Error during fetch: " + error.message);
-    });
-}
-
-//Put each pokemon's data into an array
-//Like make each pokemon into its own Object / nested array?
-
-function getPokemonData(pokemonData) {
-  let nationalNum = [];
-  let pokemonName = [];
-  let pokemonTypes = [];
-  let pokemonAbilities = [];
-  let pokemonHiddenAbility = [];
-  let pokemonStatArr = [];
-
-  for (let i = 0; i <= pokemonData.length - 1; ++i) {
-    //This for loop iterates for EACH pokemon object (pokemonData[i])
-
-    // pokemonData.length - 1
-    // =
-    // 0 - 155 (index of each JSON pokemon object)
-
-    nationalNum.push(pokemonData[i].id);
-    pokemonName.push(pokemonData[i].name);
-
-    let tempPokemonTypesArray = [];
-    //make a temp array for the current pokemon's types
-
-    for (let j = 0; j < pokemonData[i].types.length; ++j) {
-      tempPokemonTypesArray.push(pokemonData[i].types[j].type.name);
-    }
-
-    pokemonTypes.push([tempPokemonTypesArray]);
-    //push the tempPokemonTypesArray array into the pokemonTypes array
-
-    let tempAbilityArray = [];
-    //make a temp array for the current pokemon's abilities
-
-    let tempHiddenAbilityArray = [];
-    //make a temp array for the current pokemon's hidden abilities
-
-    for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
-      if (pokemonData[i].abilities[j].is_hidden) {
-        tempHiddenAbilityArray.push(pokemonData[i].abilities[j].ability.name); //if the ability is hidden
-      } else {
-        //if the ability is not hidden
-        tempAbilityArray.push(pokemonData[i].abilities[j].ability.name);
-      }
-    }
-
-    pokemonAbilities.push(tempAbilityArray);
-    //push the tempAbilityArray into the pokemonAbilities array
-
-    pokemonHiddenAbility.push(tempHiddenAbilityArray);
-    //push the tempHiddenAbilityArray into the pokemonAbilities array
+  for (let i = 494; i <= 649; ++i) {
+    urls.push(API_URL + i);
   }
 
-  //Test code
+  function makeRequest() {
+    Promise.all(
+      urls.map((url) =>
+        fetch(url).then((res) => {
+          if (!res.ok) {
+            console.log("Network response was not ok: " + res.status);
+          }
+          return res.json();
+        })
+      )
+    )
+      .then((data) => {
+        console.log(data); // All data here
+        getPokemonData(data);
+      })
+      .catch((error) => {
+        console.error("Error during fetch: " + error.message);
+      });
+  }
 
-  //
-  console.log("Data below:");
-  console.log(nationalNum);
-  console.log(pokemonName);
-  console.log(pokemonTypes);
-  console.log(pokemonAbilities);
-  console.log(pokemonHiddenAbility);
-}
+  ////////////////////////////////////////////////////////////// Store PokeAPI data into arrays
 
-makeRequest();
+  //Put each pokemon's data into an array
+  //Like make each pokemon into its own Object / nested array?
+  function getPokemonData(pokemonData) {
+    let nationalNum = [];
+    let pokemonName = [];
+    let pokemonTypes = [];
+    let pokemonAbilities = [];
+    let pokemonHiddenAbility = [];
+    let pokemonStatArr = [];
 
-//////////////////////////////////////////////////////////////
-//Button and Table Logic
+    for (let i = 0; i <= pokemonData.length - 1; ++i) {
+      //This for loop iterates for EACH pokemon object (pokemonData[i])
 
-//gets the button element from the html file as pokebutton
-let pokebutton = document.getElementById("pokebutton");
+      // pokemonData.length - 1
+      // =
+      // 0 - 155 (index of each JSON pokemon object)
 
-//adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
-pokebutton.addEventListener("click", generatePokedex);
+      nationalNum.push(pokemonData[i].id);
+      pokemonName.push(pokemonData[i].name);
 
-//Columns
-//Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
+      let tempPokemonTypesArray = [];
+      //make a temp array for the current pokemon's types
 
-//generatePokedex() (called by event listener)
-function generatePokedex() {
-  //hides the Generate Pokedex button
-  document.getElementById("pokebutton").style.display = "none";
+      for (let j = 0; j < pokemonData[i].types.length; ++j) {
+        tempPokemonTypesArray.push(pokemonData[i].types[j].type.name);
+      }
 
-  //debug console.log to show generatePokedex() was called
-  console.log("Generate Pokedex button pressed");
+      pokemonTypes.push([tempPokemonTypesArray]);
+      //push the tempPokemonTypesArray array into the pokemonTypes array
+
+      let tempAbilityArray = [];
+      //make a temp array for the current pokemon's abilities
+
+      let tempHiddenAbilityArray = [];
+      //make a temp array for the current pokemon's hidden abilities
+
+      for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
+        if (pokemonData[i].abilities[j].is_hidden) {
+          tempHiddenAbilityArray.push(pokemonData[i].abilities[j].ability.name); //if the ability is hidden
+        } else {
+          //if the ability is not hidden
+          tempAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+        }
+      }
+
+      pokemonAbilities.push(tempAbilityArray);
+      //push the tempAbilityArray into the pokemonAbilities array
+
+      pokemonHiddenAbility.push(tempHiddenAbilityArray);
+      //push the tempHiddenAbilityArray into the pokemonAbilities array
+    }
+
+    //Test code
+
+    //
+    console.log("Data below:");
+    console.log(nationalNum);
+    console.log(pokemonName);
+    console.log(pokemonTypes);
+    console.log(pokemonAbilities);
+    console.log(pokemonHiddenAbility);
+  }
+
+  makeRequest();
+
+  ///////////////////////////////////////////////////////////// Table Logic
+  // Table Logic
+
+  /////////////////////////////////////////////////////////////
 
   //gets the table element from the html file as poketable
   let poketable = document.getElementById("poketable");
+
+  // for(let i = )
 
   //creates table elements (to be used to create them)
   let tableRow = document.createElement("tr");
@@ -135,11 +124,35 @@ function generatePokedex() {
 
   let tableData = document.createElement("td");
   tableRow.appendChild(tableData);
-  tableData.innerText = Snivy.getDetails();
 
   //appends the table row element to the poketable
   poketable.appendChild(tableRow);
-}
+  /////////////////////////////////////////////////////////////
+
+  //Columns
+  //Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
+};
+
+//Old Pokebutton
+//repurpose this button to allow the user to do other things with the
+//displayed data?
+//gets the button element from the html file as pokebutton
+// let pokebutton = document.getElementById("pokebutton");
+
+// //adds an event listener to the Generate Pokedex button that calls the generatePokedex() function when clicked
+// pokebutton.addEventListener("click", generatePokedex);
+
+// //generatePokedex() (called by event listener)
+// function generatePokedex() {
+//   document.getElementById("pokebutton").style.display = "none";
+// }
+
+// //debug console.log to show generatePokedex() was called
+// console.log("Generate Pokedex button pressed");
+
+// //hides the Generate Pokedex button
+// document.getElementById("pokebutton").style.display = "none";
+
 //////////////////////////////////////////////////////////////
 
 // //Pokemon Object creation?
