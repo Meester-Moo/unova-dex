@@ -10,122 +10,120 @@
 //check if the data has been retrieved so when the user presses the button the data is always already there.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-window.onload = function () {
-  ////////////////////////////////////////////////////////////// PokeAPI Data Requests
-  let API_URL = "https://pokeapi.co/api/v2/pokemon/";
-  let urls = [];
+////////////////////////////////////////////////////////////// PokeAPI Data Requests
+let API_URL = "https://pokeapi.co/api/v2/pokemon/";
+let urls = [];
 
-  for (let i = 494; i <= 649; ++i) {
-    urls.push(API_URL + i);
-  }
+for (let i = 494; i <= 649; ++i) {
+  urls.push(API_URL + i);
+}
 
-  function makeRequest() {
-    Promise.all(
-      urls.map((url) =>
-        fetch(url).then((res) => {
-          if (!res.ok) {
-            console.log("Network response was not ok: " + res.status);
-          }
-          return res.json();
-        })
-      )
-    )
-      .then((data) => {
-        console.log(data); // All data here
-        getPokemonData(data);
-      })
-      .catch((error) => {
-        console.error("Error during fetch: " + error.message);
-      });
-  }
-
-  ////////////////////////////////////////////////////////////// Store PokeAPI data into arrays
-
-  //Put each pokemon's data into an array
-  //Like make each pokemon into its own Object / nested array?
-  function getPokemonData(pokemonData) {
-    let nationalNum = [];
-    let pokemonName = [];
-    let pokemonTypes = [];
-    let pokemonAbilities = [];
-    let pokemonHiddenAbility = [];
-    let pokemonStatArr = [];
-
-    for (let i = 0; i <= pokemonData.length - 1; ++i) {
-      //This for loop iterates for EACH pokemon object (pokemonData[i])
-
-      // pokemonData.length - 1
-      // =
-      // 0 - 155 (index of each JSON pokemon object)
-
-      nationalNum.push(pokemonData[i].id);
-      pokemonName.push(pokemonData[i].name);
-
-      let tempPokemonTypesArray = [];
-      //make a temp array for the current pokemon's types
-
-      for (let j = 0; j < pokemonData[i].types.length; ++j) {
-        tempPokemonTypesArray.push(pokemonData[i].types[j].type.name);
-      }
-
-      pokemonTypes.push([tempPokemonTypesArray]);
-      //push the tempPokemonTypesArray array into the pokemonTypes array
-
-      let tempAbilityArray = [];
-      //make a temp array for the current pokemon's abilities
-
-      let tempHiddenAbilityArray = [];
-      //make a temp array for the current pokemon's hidden abilities
-
-      for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
-        if (pokemonData[i].abilities[j].is_hidden) {
-          tempHiddenAbilityArray.push(pokemonData[i].abilities[j].ability.name); //if the ability is hidden
-        } else {
-          //if the ability is not hidden
-          tempAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+function makeRequest() {
+  Promise.all(
+    urls.map((url) =>
+      fetch(url).then((res) => {
+        if (!res.ok) {
+          console.log("Network response was not ok: " + res.status);
         }
-      }
+        return res.json();
+      })
+    )
+  )
+    .then((data) => {
+      console.log(data); // All data here
+      getPokemonData(data);
+    })
+    .catch((error) => {
+      console.error("Error during fetch: " + error.message);
+    });
+}
 
-      pokemonAbilities.push(tempAbilityArray);
-      //push the tempAbilityArray into the pokemonAbilities array
+////////////////////////////////////////////////////////////// Store PokeAPI data into arrays
 
-      pokemonHiddenAbility.push(tempHiddenAbilityArray);
-      //push the tempHiddenAbilityArray into the pokemonAbilities array
+//Put each pokemon's data into an array
+//Like make each pokemon into its own Object / nested array?
+function getPokemonData(pokemonData) {
+  let nationalNum = [];
+  let pokemonName = [];
+  let pokemonTypes = [];
+  let pokemonAbilities = [];
+  let pokemonHiddenAbility = [];
+  let pokemonStatArr = [];
+
+  for (let i = 0; i <= pokemonData.length - 1; ++i) {
+    //This for loop iterates for EACH pokemon object (pokemonData[i])
+
+    // pokemonData.length - 1
+    // =
+    // 0 - 155 (index of each JSON pokemon object)
+
+    nationalNum.push(pokemonData[i].id);
+    pokemonName.push(pokemonData[i].name);
+
+    let tempPokemonTypesArray = [];
+    //make a temp array for the current pokemon's types
+
+    for (let j = 0; j < pokemonData[i].types.length; ++j) {
+      tempPokemonTypesArray.push(pokemonData[i].types[j].type.name);
     }
 
-    //Test code
-    console.log("Data below:");
-    console.log(nationalNum);
-    console.log(pokemonName);
-    console.log(pokemonTypes);
-    console.log(pokemonAbilities);
-    console.log(pokemonHiddenAbility);
-    //
+    pokemonTypes.push([tempPokemonTypesArray]);
+    //push the tempPokemonTypesArray array into the pokemonTypes array
+
+    let tempAbilityArray = [];
+    //make a temp array for the current pokemon's abilities
+
+    let tempHiddenAbilityArray = [];
+    //make a temp array for the current pokemon's hidden abilities
+
+    for (let j = 0; j < pokemonData[i].abilities.length; ++j) {
+      if (pokemonData[i].abilities[j].is_hidden) {
+        tempHiddenAbilityArray.push(pokemonData[i].abilities[j].ability.name); //if the ability is hidden
+      } else {
+        //if the ability is not hidden
+        tempAbilityArray.push(pokemonData[i].abilities[j].ability.name);
+      }
+    }
+
+    pokemonAbilities.push(tempAbilityArray);
+    //push the tempAbilityArray into the pokemonAbilities array
+
+    pokemonHiddenAbility.push(tempHiddenAbilityArray);
+    //push the tempHiddenAbilityArray into the pokemonAbilities array
   }
 
-  makeRequest();
+  //Test code
+  console.log("Data below:");
+  console.log(nationalNum);
+  console.log(pokemonName);
+  console.log(pokemonTypes);
+  console.log(pokemonAbilities);
+  console.log(pokemonHiddenAbility);
+  //
+}
 
-  ///////////////////////////////////////////////////////////// Table Logic
+makeRequest();
 
-  //Creates TABLE element and associates it with the poketable table in the HTML
-  let table = document.getElementById("poketable");
+///////////////////////////////////////////////////////////// Table Logic
 
-  //Creates the first ROW of the table (the heading row)
-  //appends the table row element to the table
-  let tableHeaderRow = document.createElement("tr");
-  table.appendChild(tableHeaderRow);
+//Creates TABLE element and associates it with the poketable table in the HTML
+let table = document.getElementById("poketable");
 
-  //Creates the heading table data element for the gif column
-  let gifHeader = document.createElement("td");
-  tableHeaderRow.appendChild(gifHeader);
+//Creates the first ROW of the table (the heading row)
+//appends the table row element to the table
+let tableHeaderRow = document.createElement("tr");
+table.appendChild(tableHeaderRow);
 
-  gifHeader.innerText = "this is where gifs will go";
+//Creates the heading table data element for the gif column
+let gifHeader = document.createElement("td");
+tableHeaderRow.appendChild(gifHeader);
 
-  //finish headers and row creation
+gifHeader.innerText = "this is where gifs will go";
 
-  //Columns
-  //Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
-};
+//finish headers and row creation
+
+//Columns
+//Unova No., Image, Name, Type, Abilities, Stats (HP, Attack, Defense, Special Attack, Special Defense, Speed)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
